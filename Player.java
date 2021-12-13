@@ -4,17 +4,19 @@ public class Player {
     private boolean isBookmaker = false;
     private PlayerStatus Status = PlayerStatus.PLAYING;
     private int playerNo;
-
-    
-
-    
+    private Account account = new Account();
+    private int chipValue = 0;// 籌碼
 
     public Player() {
 
     }
-    
+
     public Player(int playerNo) {
         this.playerNo = playerNo;
+    }
+
+    public void printAccountBalance() {
+        System.out.println("玩家" + playerNo + "帳戶餘額:" + getAccount().getBalance());
     }
 
     public void getCard(Card card) {
@@ -23,7 +25,8 @@ public class Player {
 
     /**
      * 判斷player是否已經說停止拿牌 如果未說停止拿牌 回傳false
-     * @return 
+     * 
+     * @return
      */
     public boolean isStopGetCard() {
         return stopGetCard;
@@ -56,5 +59,17 @@ public class Player {
     public int getPlayerNo() {
         return playerNo;
     }
-    
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public int getChipValue() {
+        return chipValue;
+    }
+
+    public void setChipValue(int chipValue) {
+        this.chipValue = chipValue;
+    }
+
 }
