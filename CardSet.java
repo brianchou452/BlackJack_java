@@ -89,6 +89,20 @@ public class CardSet {
         System.out.println("總和為:" + calculateRank());
     }
 
+    public void printWithHiding1stCard() {
+        int i = 0;
+        for (Card card : set) {
+            if (i == 0) {
+                System.out.print("*** ");
+                i++;
+                continue;
+            }
+            System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");
+        }
+        System.out.println("");
+        System.out.println("總和為: n + " + (calculateRank()-set.get(0).getRankAsInt()) );
+    }
+
     
     
 }

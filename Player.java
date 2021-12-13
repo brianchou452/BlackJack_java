@@ -2,7 +2,7 @@ public class Player {
     private CardSet set = new CardSet();
     private boolean stopGetCard = false;
     private boolean isBookmaker = false;
-    private boolean isLose = false;
+    private PlayerStatus Status = PlayerStatus.PLAYING;
     private int playerNo;
 
     
@@ -45,12 +45,12 @@ public class Player {
         return set;
     }
 
-    public boolean isLose() {
-        return isLose;
+    public PlayerStatus getStatus() {
+        return Status;
     }
 
-    public void setLose(boolean isLose) {
-        this.isLose = isLose;
+    public void setStatus(PlayerStatus status) {
+        this.Status = status;
     }
 
     public int getPlayerNo() {
