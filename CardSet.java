@@ -81,6 +81,10 @@ public class CardSet {
         return Collections.unmodifiableList(set);//TODO 是否用到？？
     }
 
+    public void clear() {
+        set.clear();
+    }
+
     public void print() {// TODO override toString?? 
         for (Card card : set) {
             System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");

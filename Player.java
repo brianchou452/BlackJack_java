@@ -16,7 +16,7 @@ public class Player {
     }
 
     public void printAccountBalance() {
-        System.out.println("玩家" + playerNo + "帳戶餘額:" + getAccount().getBalance());
+        System.out.println("帳戶餘額: $" + getAccount().getBalance());
     }
 
     public void getCard(Card card) {
@@ -70,6 +70,12 @@ public class Player {
 
     public void setChipValue(int chipValue) {
         this.chipValue = chipValue;
+    }
+
+    public void startANewGame() {
+        setStatus(PlayerStatus.PLAYING);
+        setStopGetCard(false);
+        set.clear();
     }
 
 }
