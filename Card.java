@@ -3,7 +3,6 @@ public class Card {
     private Suit suit;
 
     public Card(Rank rank, Suit suit) {
-        //assert rank != null && suit != null;// TODO 或許可以移除？？
         this.rank = rank;
         this.suit = suit;
     }

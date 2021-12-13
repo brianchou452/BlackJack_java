@@ -1,8 +1,11 @@
 public class GameConfig {
     private static int defaultBalance = 5000;
     private static int playerNumber = 2;
-    private static int SetOfCard = 4;//TODO 有幾副牌 
+    private static int SetOfCard = 4;// 有幾副牌
 
+    /**
+     * 初始化遊戲設定
+     */
     public static void init() {
         System.out.print("輸入玩家人數: ");
         String tmp = Utils.sc.nextLine();
@@ -15,17 +18,31 @@ public class GameConfig {
         GameConfig.SetOfCard = Integer.parseInt(tmp);
     }
 
+    /**
+     * 取得每位玩家帳戶的初始金額
+     * 
+     * @return
+     */
     public static int getDefaultBalance() {
         return defaultBalance;
     }
 
+    /**
+     * 取得有多少位玩家
+     * 
+     * @return
+     */
     public static int getPlayerNumber() {
         return playerNumber;
     }
 
+    /**
+     * 取得要用幾副牌來進行遊戲
+     * 
+     * @return
+     */
     public static int getSetOfCard() {
         return SetOfCard;
     }
-    
 
 }

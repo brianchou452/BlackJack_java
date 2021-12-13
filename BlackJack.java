@@ -10,6 +10,9 @@ public class BlackJack {
         players[0].setBookmaker(true);
     }
 
+    /**
+     * 開始遊戲
+     */
     public void start() {
         cardOnTable.shuffle();
         askChipValue();
@@ -22,6 +25,9 @@ public class BlackJack {
         resetAllPlayers();
     }
 
+    /**
+     * 詢問每位玩家下注的金額
+     */
     private void askChipValue() {
         for (Player player : players) {
             if (!player.isBookmaker()) {
@@ -43,6 +49,9 @@ public class BlackJack {
         }
     }
 
+    /**
+     * 詢問每位玩家是否繼續加牌
+     */
     private void askPlayerToAddCard() {
         for (Player player : players) {
             if (player.isBookmaker()) {
@@ -64,23 +73,25 @@ public class BlackJack {
                     } else {
                         player.setStopGetCard(true);
                         break;
-                    } 
+                    }
                     if (i == 4) {
                         System.out.println("#玩家" + player.getPlayerNo() + " 過五關未爆牌贏了");
                         player.setStatus(PlayerStatus.WIN);
                     }
                 }
-                
+
             }
 
         }
     }
 
+    /**
+     * 莊家自己加牌
+     */
     private void bookmakerAddCard() {
-        // TODO 莊家拿牌
         System.out.println("\n\n----------------------");
         System.out.println("#莊家");
-        players[0].getSet().printWithHiding1stCard();;
+        players[0].getSet().printWithHiding1stCard();
         while (players[0].getSet().calculateRank() < 17) {
             players[0].getCard(cardOnTable.dealACard());
             players[0].getSet().printWithHiding1stCard();
@@ -97,6 +108,9 @@ public class BlackJack {
         }
     }
 
+    /**
+     * 所有玩家加牌完成和莊家比較點數看誰大
+     */
     private void compareRank() {
         int bookmakerRank = players[0].getSet().calculateRank();
         for (Player player : players) {
@@ -114,18 +128,21 @@ public class BlackJack {
         }
     }
 
+    /**
+     * 印出遊戲結果
+     */
     private void printGameResult() {
         System.out.println("\n\n==========遊戲結果==========");
         System.out.println("莊家的牌為:");
         players[0].getSet().print();
         for (Player player : players) {
-            if (player.getStatus() == PlayerStatus.WIN) {
+            if (player.getStatus() == PlayerStatus.WIN && !player.isBookmaker()) {
                 System.out.print("玩家" + player.getPlayerNo() + "贏了, ");
                 Account.transfer(players[0].getAccount(), player.getAccount(), player.getChipValue());
-            } else if (player.getStatus() == PlayerStatus.LOSE) {
+            } else if (player.getStatus() == PlayerStatus.LOSE && !player.isBookmaker()) {
                 System.out.print("玩家" + player.getPlayerNo() + "輸了, ");
                 Account.transfer(player.getAccount(), players[0].getAccount(), player.getChipValue());
-            } else if (player.getStatus() == PlayerStatus.TIE) {
+            } else if (player.getStatus() == PlayerStatus.TIE && !player.isBookmaker()) {
                 System.out.print("玩家" + player.getPlayerNo() + "與莊家平手, ");
             }
             if (!player.isBookmaker()) {
@@ -135,6 +152,9 @@ public class BlackJack {
         System.out.println("============================\n\n");
     }
 
+    /**
+     * 將所有player重置成遊戲開始前的樣子，除了account
+     */
     private void resetAllPlayers() {
         for (Player player : players) {
             player.startANewGame();

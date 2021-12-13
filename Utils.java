@@ -7,11 +7,17 @@ public class Utils {
      */
     final static Scanner sc = new Scanner(System.in);
 
+    /**
+     * 詢問yes no 問題，並判斷使用者回答是否正確，如錯誤則重新輸入
+     * 
+     * @param question 要問得問題
+     * @return 如使用者答 y 則回傳 true ， 答 n 則回傳 false
+     */
     public static boolean askYesNoQuestion(String question) {
         boolean ansCorrectly = false;
         while (!ansCorrectly) {
             System.out.print(question + " ");
-            
+
             String ans = Utils.sc.nextLine();
             if (ans.equals("y")) {
                 return true;
