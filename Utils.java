@@ -29,4 +29,17 @@ public class Utils {
         }
         return false;
     }
+
+    public static int askQuestionAnswerWithInt(String Question) { 
+        int number;
+        while (true) {
+            try {
+                System.out.print(Question);
+                number = Integer.parseInt(Utils.sc.nextLine());
+                return number;
+            } catch (Exception numberFormatException) {
+                System.out.println("回答錯誤!請重新回答!");
+            }
+        }
+    }
 }

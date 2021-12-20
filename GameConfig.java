@@ -2,6 +2,11 @@ public class GameConfig {
     private static int defaultBalance = 5000;
     private static int playerNumber = 2;
     private static int SetOfCard = 4;// 有幾副牌
+    private static GameMode gameMode = GameMode.COMMAD_LINE;//TODO change it later
+
+    public enum GameMode {
+        COMMAD_LINE,GUI
+    }
 
     /**
      * 初始化遊戲設定
@@ -43,6 +48,10 @@ public class GameConfig {
      */
     public static int getSetOfCard() {
         return SetOfCard;
+    }
+
+    public static GameMode getGameMode() {
+        return gameMode;
     }
 
 }
