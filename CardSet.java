@@ -96,7 +96,7 @@ public class CardSet {
     }
 
     /**
-     * 印出所有牌和點數總和
+     * 印出所有牌和點數總和 
      */
     public void print() {// TODO override toString??
         for (Card card : set) {

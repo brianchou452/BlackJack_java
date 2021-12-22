@@ -1,11 +1,11 @@
 public class View {
-    private GameConfig.GameMode gameMode = GameConfig.getGameMode();
+    private static GameConfig.GameMode gameMode = GameConfig.getGameMode();
 
     public View() {
 
     }
 
-    private boolean isUsingGUI() {
+    private static boolean isUsingGUI() {
         if (gameMode == GameConfig.GameMode.COMMAD_LINE) {
             return false;
         } else {
@@ -13,21 +13,21 @@ public class View {
         }
     }
 
-    public void printCurrentPlayer(int playerNo) {
+    public static void printCurrentPlayer(int playerNo) {
         if (isUsingGUI()) {
             // TODO call GUI function
         }
         System.out.println("#玩家" + playerNo);
     }
 
-    public int askChipValue() {
+    public static int askChipValue() {
         if (isUsingGUI()) {
             // TODO call GUI function
         }
         return Utils.askQuestionAnswerWithInt("請輸入你的籌碼 $");
     }
 
-    public void printSinglePlayerGameResult(String playerName, String reason, PlayerStatus status) {
+    public static void printSinglePlayerGameResult(String playerName, String reason, PlayerStatus status) {
         if (isUsingGUI()) {
             // TODO call GUI function
             // TODO 原因改用enum傳遞
@@ -38,7 +38,8 @@ public class View {
     /**
      * 印出遊戲結果
      */
-    public void printGameResult(Player[] players) {
+    public static void printGameResult() {
+        Player[] players = GameData.getPlayers();
         if (isUsingGUI()) {
             // TODO call GUI function
             return;
@@ -50,10 +51,15 @@ public class View {
             if (player.isBookmaker()) {
                 continue;
             }
-            System.out.print("玩家" + player.getPlayerNo() + player.getStatus() +", ");
-            
+            System.out.print("玩家" + player.getPlayerNo() + player.getStatus() + ", ");
+
             player.printAccountBalance();
         }
         System.out.println("============================\n\n");
+    }
+    
+    public static void changePlayer(String playerName) {
+        System.out.println("\n\n----------------------");
+        System.out.println("#"+playerName);
     }
 }
