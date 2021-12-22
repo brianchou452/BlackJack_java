@@ -89,7 +89,19 @@ public class CardSet {
     public Card dealACard() {
         Card tmp = set.get(0);
         set.remove(0);
+        if (GameConfig.idDebugMode()) {
+            return dealASpecificCard();
+        }
         return tmp;
+    }
+
+    /**
+     * 回傳特定的一張牌 debug用
+     * @return
+     */
+    private Card dealASpecificCard() {
+        int rank = Utils.askQuestionAnswerWithInt(" 輸入想要的點數:");
+        return new Card(Rank.values()[rank - 1], Suit.CLUBS);
     }
 
     /**

@@ -4,6 +4,7 @@ public class GameConfig {
     private static int SetOfCard = 4;// 有幾副牌
     private static boolean playWithMoney;
     private static GameMode gameMode = GameMode.COMMAD_LINE;//TODO change it later
+    private static boolean debugMode = false;
 
     public enum GameMode {
         COMMAD_LINE,GUI
@@ -17,6 +18,7 @@ public class GameConfig {
         String tmp = Utils.sc.nextLine();
         playerNumber = 1 + Integer.parseInt(tmp);
         playWithMoney = Utils.askYesNoQuestion("是否開啟賭錢功能(y/n)");
+        debugMode = Utils.askYesNoQuestion("debug mode ? (n)");
         if (playWithMoney) {
             System.out.print("輸入每位玩家的預設帳戶金額: $");
             tmp = Utils.sc.nextLine();
@@ -62,7 +64,9 @@ public class GameConfig {
         return playWithMoney;
     }
 
-    
+    public static boolean idDebugMode() {
+        return debugMode;
+    }
 
     
 

@@ -101,4 +101,8 @@ public class View {
         System.out.println("");
         System.out.println("總和為: n + " + set.calculateRankWithout1stCard());
     }
+
+    public static void askPlayerToBuyInsurance(){
+        System.out.println("莊家明牌為A 請玩家決定是否購買保險");
+    }
 }

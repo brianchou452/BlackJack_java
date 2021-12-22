@@ -6,6 +6,7 @@ public class Player {
     private int playerNo;
     private Account account = new Account();
     private int chipValue = 0;// 籌碼
+    private boolean buyInsurance = false;
 
     public Player() {
 
@@ -127,5 +128,15 @@ public class Player {
         setStopGetCard(false);
         set.clear();
     }
+
+    public boolean isBuyInsurance() {
+        return buyInsurance;
+    }
+
+    public void setBuyInsurance(boolean buyInsurance) {
+        this.buyInsurance = buyInsurance;
+    }
+
+    
 
 }

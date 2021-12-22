@@ -54,6 +54,9 @@ public class BlackJack {
     private void dealCard() {
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
+            if (GameConfig.idDebugMode()) {
+                System.out.print("*debug mode* player" + player.getPlayerNo());
+            }
             player.getCard(cardOnTable.dealACard());
         }
     }
@@ -72,6 +75,9 @@ public class BlackJack {
                 View.printCardset(player.getSet());
                 for (int i = 0; i < 5; i++) {
                     if (Utils.askYesNoQuestion("是否要加牌(y/n)")) {
+                        if (GameConfig.idDebugMode()) {
+                            System.out.print("*debug mode* player" + player.getPlayerNo());
+                        }
                         player.getCard(cardOnTable.dealACard());
                         View.printCardset(player.getSet());
                         if (player.getSet().calculateRank() > 21) {
@@ -95,16 +101,37 @@ public class BlackJack {
     }
 
     /**
+     * 依序詢問每位玩家是否買保險
+     */
+    private void buyInsurance() {
+        for (int i = 1; i < GameConfig.getPlayerNumber(); i++) {
+            boolean buyInsuranceAns = Utils
+                    .askYesNoQuestion("玩家" + GameData.getPlayers()[i].getPlayerNo() + " 是否買保險(y/n)");
+            GameData.getPlayers()[i].setBuyInsurance(buyInsuranceAns);
+        }
+    }
+
+    /**
      * 莊家自己加牌
      */
     private void bookmakerAddCard() {
         Player[] players = GameData.getPlayers();
         View.changePlayer("#莊家");
-        //players[0].getSet().printWithHiding1stCard();
         View.printCardsetWithHiding1stCard(players[0].getSet());
+        /**
+         * 莊家第二張牌為A時 詢問是否買保險
+         */
+        if (players[0].getSet().getCards().get(1).getRank().equals(Rank.ACE)) {
+            if (GameConfig.isPlayWithMoney()) {
+                View.askPlayerToBuyInsurance();
+                buyInsurance();
+            }
+        }
         while (players[0].getSet().calculateRank() < 17) {
+            if (GameConfig.idDebugMode()) {
+                System.out.print("*debug mode* player" + players[0].getPlayerNo());
+            }
             players[0].getCard(cardOnTable.dealACard());
-            //players[0].getSet().printWithHiding1stCard();
             View.printCardsetWithHiding1stCard(players[0].getSet());
             if (players[0].getSet().calculateRank() > 21) {
                 View.printSinglePlayerGameResult("莊家", "爆牌", PlayerStatus.LOSE);
@@ -123,10 +150,12 @@ public class BlackJack {
      * 所有玩家加牌完成和莊家比較點數看誰大
      */
     private void compareRank() {
-
         Player[] players = GameData.getPlayers();
         int bookmakerRank = players[0].getSet().calculateRank();
         for (Player player : players) {
+            /**
+             * 如果是莊家或以給定輸贏者則跳過
+             */
             if (player.isBookmaker() || !(player.getStatus() == PlayerStatus.PLAYING)) {
                 continue;
             }
@@ -138,8 +167,6 @@ public class BlackJack {
             } else {
                 player.setStatus(PlayerStatus.WIN);
             }
-
-            // TODO View.java L55-L59
 
         }
     }
@@ -154,6 +181,12 @@ public class BlackJack {
                 Account.transfer(players[0].getAccount(), player.getAccount(), player.getChipValue());
             } else if (player.getStatus() == PlayerStatus.LOSE && !player.isBookmaker()) {
                 Account.transfer(player.getAccount(), players[0].getAccount(), player.getChipValue());
+                /**
+                 * 如果玩家有買保險則將錢歸還
+                 */
+                if (player.isBuyInsurance()) {
+                    Account.transfer(players[0].getAccount(), player.getAccount(), player.getChipValue());
+                }
             }
         }
     }
