@@ -51,15 +51,25 @@ public class View {
             if (player.isBookmaker()) {
                 continue;
             }
-            System.out.print("玩家" + player.getPlayerNo() + player.getStatus() + ", ");
+            System.out.print("玩家" + player.getPlayerNo() + player.getStatus() );
 
-            player.printAccountBalance();
+            // 印出玩家的帳戶餘額，格式為 “帳戶餘額: $xxxx”
+            if (GameConfig.isPlayWithMoney()) {
+                System.out.print(", "+ "帳戶餘額: $" + player.getAccount().getBalance());
+            }
+            System.out.println("");
         }
         System.out.println("============================\n\n");
     }
     
+
+    
     public static void changePlayer(String playerName) {
         System.out.println("\n\n----------------------");
-        System.out.println("#"+playerName);
+        System.out.println("#" + playerName);
+    }
+    
+    public static void noMoreMoney() {
+        System.out.println("嗚嗚嗚 沒有那麼多錢拉!");
     }
 }

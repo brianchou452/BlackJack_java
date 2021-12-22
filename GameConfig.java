@@ -2,6 +2,7 @@ public class GameConfig {
     private static int defaultBalance = 5000;
     private static int playerNumber = 2;
     private static int SetOfCard = 4;// 有幾副牌
+    private static boolean playWithMoney;
     private static GameMode gameMode = GameMode.COMMAD_LINE;//TODO change it later
 
     public enum GameMode {
@@ -14,13 +15,16 @@ public class GameConfig {
     public static void init() {
         System.out.print("輸入玩家人數: ");
         String tmp = Utils.sc.nextLine();
-        GameConfig.playerNumber = 1 + Integer.parseInt(tmp);
-        System.out.print("輸入每位玩家的預設帳戶金額: $");
-        tmp = Utils.sc.nextLine();
-        GameConfig.defaultBalance = Integer.parseInt(tmp);
+        playerNumber = 1 + Integer.parseInt(tmp);
+        playWithMoney = Utils.askYesNoQuestion("是否開啟賭錢功能(y/n)");
+        if (playWithMoney) {
+            System.out.print("輸入每位玩家的預設帳戶金額: $");
+            tmp = Utils.sc.nextLine();
+            defaultBalance = Integer.parseInt(tmp);
+        }   
         System.out.print("輸入要以幾組撲克牌來進行遊戲: ");
         tmp = Utils.sc.nextLine();
-        GameConfig.SetOfCard = Integer.parseInt(tmp);
+        SetOfCard = Integer.parseInt(tmp);
     }
 
     /**
@@ -53,5 +57,13 @@ public class GameConfig {
     public static GameMode getGameMode() {
         return gameMode;
     }
+
+    public static boolean isPlayWithMoney() {
+        return playWithMoney;
+    }
+
+    
+
+    
 
 }

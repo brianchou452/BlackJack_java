@@ -19,12 +19,7 @@ public class Player {
         this.playerNo = playerNo;
     }
 
-    /**
-     * 印出玩家的帳戶餘額，格式為 “帳戶餘額: $xxxx”
-     */
-    public void printAccountBalance() {
-        System.out.println("帳戶餘額: $" + getAccount().getBalance());
-    }
+    
 
     /**
      * 玩家於遊戲中取得一張牌並放入手中的牌

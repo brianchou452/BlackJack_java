@@ -23,7 +23,12 @@ public class Account {
      * @param amount 提款金額
      */
     public void withdraw(int amount) {
-        balance -= amount;
+        if (balance - amount >= 0) {
+            balance -= amount;
+        } else {
+            System.out.println("哇哇哇! 錯誤! 沒有錢");
+        }
+        
     }
 
     /**

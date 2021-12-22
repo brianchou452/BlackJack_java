@@ -15,13 +15,17 @@ public class BlackJack {
      */
     public void start() {
         cardOnTable.shuffle();
-        askChipValue();
+        if (GameConfig.isPlayWithMoney()) {
+            askChipValue();
+        }
         dealCard();
         dealCard();
         bookmakerAddCard();
         askPlayerToAddCard();
         compareRank();
-        transferMoney();
+        if (GameConfig.isPlayWithMoney()) {
+            transferMoney();
+        }
         View.printGameResult();
         resetAllPlayers();
     }
@@ -31,12 +35,16 @@ public class BlackJack {
      */
     private void askChipValue() {
         Player[] players = GameData.getPlayers();
-        for (Player player : players) {
-            if (!player.isBookmaker()) {
-                View.printCurrentPlayer(player.getPlayerNo());
-                int amount = View.askChipValue();
-                player.setChipValue(amount);
+        for (int i = 1; i < GameConfig.getPlayerNumber(); i++) {
+            View.printCurrentPlayer(players[i].getPlayerNo());
+            int amount = View.askChipValue();
+            if (amount <= players[i].getAccount().getBalance()) {
+                players[i].setChipValue(amount);
+            } else {
+                View.noMoreMoney();
+                i--;
             }
+
         }
     }
 
@@ -129,14 +137,14 @@ public class BlackJack {
                 player.setStatus(PlayerStatus.WIN);
             }
 
-           
-            
-            //TODO View.java L55-L59
-            
+            // TODO View.java L55-L59
+
         }
     }
 
-
+    /**
+     * 根據遊戲結果，依序將錢轉入或轉出
+     */
     private void transferMoney() {
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
@@ -158,11 +166,10 @@ public class BlackJack {
         }
     }
     /*
-    public Player[] getPlayers() {
-        Player[] players = GameData.getPlayers();
-        return players;
-    }*/
-
-    
+     * public Player[] getPlayers() {
+     * Player[] players = GameData.getPlayers();
+     * return players;
+     * }
+     */
 
 }
