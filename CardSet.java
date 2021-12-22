@@ -69,6 +69,19 @@ public class CardSet {
     }
 
     /**
+     * 計算除了第一張牌其餘的牌點數是多少
+     * 
+     * @return 最大的點數
+     */
+    public int calculateRankWithout1stCard() {
+        int ans = 0;
+        for (int i = 1; i < set.size();i++) {
+            ans += set.get(i).getRankAsInt();
+        }
+        return ans;
+    }
+
+    /**
      * 發一張牌
      * 
      * @return 回傳一張牌
@@ -98,18 +111,18 @@ public class CardSet {
     /**
      * 印出所有牌和點數總和 
      */
-    public void print() {// TODO override toString??
+    /*public void print() {// TODO override toString??
         for (Card card : set) {
             System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");
         }
         System.out.println("");
         System.out.println("總和為:" + calculateRank());
-    }
+    }*/
 
     /**
      * 印出除了第一張牌以外的所有牌以及點數和(用於印出莊家手中的牌)
      */
-    public void printWithHiding1stCard() {
+    /*public void printWithHiding1stCard() {
         int i = 0;
         for (Card card : set) {
             if (i == 0) {
@@ -121,6 +134,6 @@ public class CardSet {
         }
         System.out.println("");
         System.out.println("總和為: n + " + (calculateRank() - set.get(0).getRankAsInt()));
-    }
+    }*/
 
 }

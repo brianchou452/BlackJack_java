@@ -69,11 +69,11 @@ public class BlackJack {
             }
             if (!player.isStopGetCard() && player.getStatus() == PlayerStatus.PLAYING) {
                 View.changePlayer("#玩家" + player.getPlayerNo());
-                player.getSet().print();
+                View.printCardset(player.getSet());
                 for (int i = 0; i < 5; i++) {
                     if (Utils.askYesNoQuestion("是否要加牌(y/n)")) {
                         player.getCard(cardOnTable.dealACard());
-                        player.getSet().print();
+                        View.printCardset(player.getSet());
                         if (player.getSet().calculateRank() > 21) {
                             View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(), "爆牌", PlayerStatus.LOSE);
                             player.setStatus(PlayerStatus.LOSE);
@@ -100,10 +100,12 @@ public class BlackJack {
     private void bookmakerAddCard() {
         Player[] players = GameData.getPlayers();
         View.changePlayer("#莊家");
-        players[0].getSet().printWithHiding1stCard();
+        //players[0].getSet().printWithHiding1stCard();
+        View.printCardsetWithHiding1stCard(players[0].getSet());
         while (players[0].getSet().calculateRank() < 17) {
             players[0].getCard(cardOnTable.dealACard());
-            players[0].getSet().printWithHiding1stCard();
+            //players[0].getSet().printWithHiding1stCard();
+            View.printCardsetWithHiding1stCard(players[0].getSet());
             if (players[0].getSet().calculateRank() > 21) {
                 View.printSinglePlayerGameResult("莊家", "爆牌", PlayerStatus.LOSE);
                 players[0].setStatus(PlayerStatus.LOSE);

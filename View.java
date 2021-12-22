@@ -46,7 +46,8 @@ public class View {
         }
         System.out.println("\n\n==========遊戲結果==========");
         System.out.println("莊家的牌為:");
-        players[0].getSet().print();
+        //players[0].getSet().print();
+        View.printCardset(players[0].getSet());
         for (Player player : players) {
             if (player.isBookmaker()) {
                 continue;
@@ -71,5 +72,33 @@ public class View {
     
     public static void noMoreMoney() {
         System.out.println("嗚嗚嗚 沒有那麼多錢拉!");
+    }
+
+    /**
+     * 印出所有牌和點數總和
+     */
+    public static void printCardset(CardSet set) {// TODO override toString??
+        for (Card card : set.getCards()) {
+            System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");
+        }
+        System.out.println("");
+        System.out.println("總和為:" + set.calculateRank());
+    }
+
+    /**
+     * 印出除了第一張牌以外的所有牌以及點數和(用於印出莊家手中的牌)
+     */
+    public static void printCardsetWithHiding1stCard(CardSet set) {
+        int i = 0;
+        for (Card card : set.getCards()) {
+            if (i == 0) {
+                System.out.print("*** ");
+                i++;
+                continue;
+            }
+            System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");
+        }
+        System.out.println("");
+        System.out.println("總和為: n + " + set.calculateRankWithout1stCard());
     }
 }
