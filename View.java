@@ -32,7 +32,7 @@ public class View {
             // TODO call GUI function
             // TODO 原因改用enum傳遞
         }
-        System.out.println("#"+playerName+reason+status);
+        System.out.println("#" + playerName + reason + status);
     }
 
     /**
@@ -46,30 +46,28 @@ public class View {
         }
         System.out.println("\n\n==========遊戲結果==========");
         System.out.println("莊家的牌為:");
-        //players[0].getSet().print();
+        // players[0].getSet().print();
         View.printCardset(players[0].getSet());
         for (Player player : players) {
             if (player.isBookmaker()) {
                 continue;
             }
-            System.out.print("玩家" + player.getPlayerNo() + player.getStatus() );
+            System.out.print("玩家" + player.getPlayerNo() + player.getStatus());
 
             // 印出玩家的帳戶餘額，格式為 “帳戶餘額: $xxxx”
             if (GameConfig.isPlayWithMoney()) {
-                System.out.print(", "+ "帳戶餘額: $" + player.getAccount().getBalance());
+                System.out.print(", " + "帳戶餘額: $" + player.getAccount().getBalance());
             }
             System.out.println("");
         }
         System.out.println("============================\n\n");
     }
-    
 
-    
     public static void changePlayer(String playerName) {
         System.out.println("\n\n----------------------");
         System.out.println("#" + playerName);
     }
-    
+
     public static void noMoreMoney() {
         System.out.println("嗚嗚嗚 沒有那麼多錢拉!");
     }
@@ -102,7 +100,13 @@ public class View {
         System.out.println("總和為: n + " + set.calculateRankWithout1stCard());
     }
 
-    public static void askPlayerToBuyInsurance(){
+    public static void askPlayerToBuyInsurance() {
         System.out.println("莊家明牌為A 請玩家決定是否購買保險");
+    }
+
+    public static void debugMessage(String print) {
+        if (GameConfig.isPrintDebugMessage()) {
+            System.out.println("*debug* " + print);
+        }
     }
 }

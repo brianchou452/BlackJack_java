@@ -91,9 +91,9 @@ public class CardSet {
         set.remove(0);
         if (set.size() < (52 * GameConfig.getSetOfCard()) / 2) {
             GameData.setReShuffle(true);
-            System.out.println("*debug* 待會重新洗牌");
+            View.debugMessage("待會重新洗牌");
         }
-        if (GameConfig.idDebugMode()) {
+        if (GameConfig.isDebugMode()) {
             return dealASpecificCard();
         }
         return tmp;
@@ -104,7 +104,7 @@ public class CardSet {
      * @return
      */
     private Card dealASpecificCard() {
-        int rank = Utils.askQuestionAnswerWithInt(" 輸入想要的點數:");
+        int rank = Utils.askQuestionAnswerWithInt("-->輸入想要的點數:) :");
         return new Card(Rank.values()[rank - 1], Suit.CLUBS);
     }
 

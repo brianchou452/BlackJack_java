@@ -1,5 +1,5 @@
 public class BlackJack {
-    //private CardSet cardOnTable = GameData.getCardOnTable();
+    // private CardSet cardOnTable = GameData.getCardOnTable();
 
     public BlackJack() {
         GameData.setPlayers(new Player[GameConfig.getPlayerNumber()]);
@@ -57,9 +57,7 @@ public class BlackJack {
         CardSet cardOnTable = GameData.getCardOnTable();
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
-            if (GameConfig.idDebugMode()) {
-                System.out.print("*debug mode* player" + player.getPlayerNo());
-            }
+            View.debugMessage("player" + player.getPlayerNo());
             player.getCard(cardOnTable.dealACard());
         }
     }
@@ -77,15 +75,27 @@ public class BlackJack {
             if (!player.isStopGetCard() && player.getStatus() == PlayerStatus.PLAYING) {
                 View.changePlayer("#玩家" + player.getPlayerNo());
                 View.printCardset(player.getSet());
+
+                /**
+                 * 雙倍下注，若閒家首兩張牌點數之和為11點，
+                 * 可以選擇加倍投注，但加注後僅獲發1張牌。
+                 */
+                if (player.getSet().calculateRank() == 11) {
+                    if (Utils.askYesNoQuestion("首兩張牌點數之和為11點，是否加倍投注(y/n)")) {
+                        player.getCard(cardOnTable.dealACard());
+                        player.setStopGetCard(true);
+                        player.setDoubleBet(true);
+                        continue;
+                    }
+                }
                 for (int i = 0; i < 5; i++) {
                     if (Utils.askYesNoQuestion("是否要加牌(y/n)")) {
-                        if (GameConfig.idDebugMode()) {
-                            System.out.print("*debug mode* player" + player.getPlayerNo());
-                        }
+                        View.debugMessage("player" + player.getPlayerNo());
                         player.getCard(cardOnTable.dealACard());
                         View.printCardset(player.getSet());
                         if (player.getSet().calculateRank() > 21) {
-                            View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(), "爆牌", PlayerStatus.LOSE);
+                            View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
+                                    "爆牌", PlayerStatus.LOSE);
                             player.setStatus(PlayerStatus.LOSE);
                             break;
                         }
@@ -94,7 +104,8 @@ public class BlackJack {
                         break;
                     }
                     if (i == 4) {
-                        View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(), "過五關未爆牌", PlayerStatus.WIN);
+                        View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
+                                "過五關未爆牌", PlayerStatus.WIN);
                         player.setStatus(PlayerStatus.WIN);
                     }
                 }
@@ -110,7 +121,8 @@ public class BlackJack {
     private void buyInsurance() {
         for (int i = 1; i < GameConfig.getPlayerNumber(); i++) {
             boolean buyInsuranceAns = Utils
-                    .askYesNoQuestion("玩家" + GameData.getPlayers()[i].getPlayerNo() + " 是否買保險(y/n)");
+                    .askYesNoQuestion("玩家" + GameData.getPlayers()[i].getPlayerNo() +
+                            " 是否買保險(y/n)");
             GameData.getPlayers()[i].setBuyInsurance(buyInsuranceAns);
         }
     }
@@ -138,9 +150,7 @@ public class BlackJack {
             }
         }
         while (players[0].getSet().calculateRank() < 17) {
-            if (GameConfig.idDebugMode()) {
-                System.out.print("*debug mode* player" + players[0].getPlayerNo());
-            }
+            View.debugMessage("player"+ players[0].getPlayerNo());
             players[0].getCard(cardOnTable.dealACard());
             View.printCardsetWithHiding1stCard(players[0].getSet());
             if (players[0].getSet().calculateRank() > 21) {
@@ -188,14 +198,25 @@ public class BlackJack {
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
             if (player.getStatus() == PlayerStatus.WIN && !player.isBookmaker()) {
-                Account.transfer(players[0].getAccount(), player.getAccount(), player.getChipValue());
+                Account.transfer(players[0].getAccount(), player.getAccount(),
+                        player.getChipValue());
+                if (player.isDoubleBet()) {// 雙倍下注
+                    Account.transfer(players[0].getAccount(), player.getAccount(),
+                            player.getChipValue());
+                }
             } else if (player.getStatus() == PlayerStatus.LOSE && !player.isBookmaker()) {
-                Account.transfer(player.getAccount(), players[0].getAccount(), player.getChipValue());
+                Account.transfer(player.getAccount(), players[0].getAccount(),
+                        player.getChipValue());
+                if (player.isDoubleBet()) {// 雙倍下注
+                    Account.transfer(player.getAccount(), players[0].getAccount(),
+                            player.getChipValue());
+                }
                 /**
                  * 如果玩家有買保險則將錢歸還
                  */
                 if (player.isBuyInsurance()) {
-                    Account.transfer(players[0].getAccount(), player.getAccount(), player.getChipValue());
+                    Account.transfer(players[0].getAccount(), player.getAccount(),
+                            player.getChipValue());
                 }
             }
         }
@@ -212,7 +233,8 @@ public class BlackJack {
         if (GameData.isReShuffle()) {
             GameData.getCardOnTable().clear();
             GameData.setCardOnTable(new CardSet(GameConfig.getSetOfCard()));
-            System.out.println("*debug* 重新洗牌");
+            GameData.setReShuffle(false);
+            View.debugMessage("重新洗牌完成");
         }
     }
     /*

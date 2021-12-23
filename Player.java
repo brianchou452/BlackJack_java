@@ -7,6 +7,8 @@ public class Player {
     private Account account = new Account();
     private int chipValue = 0;// 籌碼
     private boolean buyInsurance = false;
+    private boolean doubleBet = false;
+
 
     public Player() {
 
@@ -126,6 +128,8 @@ public class Player {
     public void startANewGame() {
         setStatus(PlayerStatus.PLAYING);
         setStopGetCard(false);
+        setBuyInsurance(false);
+        setDoubleBet(false);
         set.clear();
     }
 
@@ -136,6 +140,16 @@ public class Player {
     public void setBuyInsurance(boolean buyInsurance) {
         this.buyInsurance = buyInsurance;
     }
+
+    public boolean isDoubleBet() {
+        return doubleBet;
+    }
+
+    public void setDoubleBet(boolean doubleBet) {
+        this.doubleBet = doubleBet;
+    }
+
+    
 
     
 
