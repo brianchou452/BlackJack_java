@@ -89,6 +89,10 @@ public class CardSet {
     public Card dealACard() {
         Card tmp = set.get(0);
         set.remove(0);
+        if (set.size() < (52 * GameConfig.getSetOfCard()) / 2) {
+            GameData.setReShuffle(true);
+            System.out.println("*debug* 待會重新洗牌");
+        }
         if (GameConfig.idDebugMode()) {
             return dealASpecificCard();
         }

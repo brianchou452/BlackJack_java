@@ -1,5 +1,5 @@
 public class BlackJack {
-    private CardSet cardOnTable = GameData.getCardOnTable();
+    //private CardSet cardOnTable = GameData.getCardOnTable();
 
     public BlackJack() {
         GameData.setPlayers(new Player[GameConfig.getPlayerNumber()]);
@@ -14,14 +14,16 @@ public class BlackJack {
      * 開始遊戲
      */
     public void start() {
+        CardSet cardOnTable = GameData.getCardOnTable();
         cardOnTable.shuffle();
         if (GameConfig.isPlayWithMoney()) {
             askChipValue();
         }
         dealCard();
         dealCard();
-        bookmakerAddCard();
+        printBookmakerCard();
         askPlayerToAddCard();
+        bookmakerAddCard();
         compareRank();
         if (GameConfig.isPlayWithMoney()) {
             transferMoney();
@@ -52,6 +54,7 @@ public class BlackJack {
      * 發一張牌給所有player
      */
     private void dealCard() {
+        CardSet cardOnTable = GameData.getCardOnTable();
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
             if (GameConfig.idDebugMode()) {
@@ -65,6 +68,7 @@ public class BlackJack {
      * 詢問每位玩家是否繼續加牌
      */
     private void askPlayerToAddCard() {
+        CardSet cardOnTable = GameData.getCardOnTable();
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
             if (player.isBookmaker()) {
@@ -111,13 +115,19 @@ public class BlackJack {
         }
     }
 
+    private void printBookmakerCard() {
+        Player[] players = GameData.getPlayers();
+        View.changePlayer("#莊家");
+        View.printCardsetWithHiding1stCard(players[0].getSet());
+    }
+
     /**
      * 莊家自己加牌
      */
     private void bookmakerAddCard() {
         Player[] players = GameData.getPlayers();
-        View.changePlayer("#莊家");
-        View.printCardsetWithHiding1stCard(players[0].getSet());
+        CardSet cardOnTable = GameData.getCardOnTable();
+        printBookmakerCard();
         /**
          * 莊家第二張牌為A時 詢問是否買保險
          */
@@ -198,6 +208,11 @@ public class BlackJack {
         Player[] players = GameData.getPlayers();
         for (Player player : players) {
             player.startANewGame();
+        }
+        if (GameData.isReShuffle()) {
+            GameData.getCardOnTable().clear();
+            GameData.setCardOnTable(new CardSet(GameConfig.getSetOfCard()));
+            System.out.println("*debug* 重新洗牌");
         }
     }
     /*
