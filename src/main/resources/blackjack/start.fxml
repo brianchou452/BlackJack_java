@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="blackjack.StartController">
+   <left>
+      <Label text="遊戲人數" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Button fx:id="okBun" mnemonicParsing="false" onAction="#startGame" text="開始遊戲" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <TextField fx:id="peopleNum" promptText="填人數" BorderPane.alignment="CENTER" />
+   </center>
+   <top>
+      <Label prefHeight="83.0" prefWidth="631.0" text="歡迎來玩21點的遊戲！" BorderPane.alignment="TOP_LEFT" />
+   </top>
+</BorderPane>

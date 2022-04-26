@@ -1,3 +1,5 @@
+package blackjack;
+
 public class BlackJack {
     // private CardSet cardOnTable = GameData.getCardOnTable();
 
@@ -22,15 +24,23 @@ public class BlackJack {
         dealCard();
         dealCard();
         printBookmakerCard();
-        askPlayerToAddCard();
+        updateScreen();
+        /*askPlayerToAddCard();
         bookmakerAddCard();
         compareRank();
         if (GameConfig.isPlayWithMoney()) {
             transferMoney();
         }
         View.printGameResult();
-        resetAllPlayers();
+        resetAllPlayers();*/
     }
+
+    public void updateScreen() {
+        View.changePlayer("#玩家" + GameData.getNowPlayerInt());
+        View.printCardset(GameData.getPlayers()[GameData.getNowPlayerInt()].getSet());
+    }
+
+    
 
     /**
      * 詢問每位玩家下注的金額
@@ -65,53 +75,55 @@ public class BlackJack {
     /**
      * 詢問每位玩家是否繼續加牌
      */
-    private void askPlayerToAddCard() {
+    public void playerAddCard() {
+        View.debugMessage("call playerAddCard()");
         CardSet cardOnTable = GameData.getCardOnTable();
         Player[] players = GameData.getPlayers();
-        for (Player player : players) {
-            if (player.isBookmaker()) {
-                continue;
-            }
-            if (!player.isStopGetCard() && player.getStatus() == PlayerStatus.PLAYING) {
-                View.changePlayer("#玩家" + player.getPlayerNo());
-                View.printCardset(player.getSet());
+        Player player = players[GameData.getNowPlayerInt()];
+        if (!player.isStopGetCard() && player.getStatus() == PlayerStatus.PLAYING) {
+            //View.changePlayer("#玩家" + player.getPlayerNo());
+            //View.printCardset(player.getSet());
 
-                /**
-                 * 雙倍下注，若閒家首兩張牌點數之和為11點，
-                 * 可以選擇加倍投注，但加注後僅獲發1張牌。
-                 */
-                if (player.getSet().calculateRank() == 11) {
-                    if (Utils.askYesNoQuestion("首兩張牌點數之和為11點，是否加倍投注(y/n)")) {
-                        player.getCard(cardOnTable.dealACard());
-                        player.setStopGetCard(true);
-                        player.setDoubleBet(true);
-                        continue;
-                    }
+            /**
+             * 雙倍下注，若閒家首兩張牌點數之和為11點，
+             * 可以選擇加倍投注，但加注後僅獲發1張牌。
+             */
+            /*if (player.getSet().calculateRank() == 11) {
+                if (Utils.askYesNoQuestion("首兩張牌點數之和為11點，是否加倍投注(y/n)")) {
+                    player.getCard(cardOnTable.dealACard());
+                    player.setStopGetCard(true);
+                    player.setDoubleBet(true);
+                    continue;
                 }
-                for (int i = 0; i < 5; i++) {
-                    if (Utils.askYesNoQuestion("是否要加牌(y/n)")) {
-                        View.debugMessage("player" + player.getPlayerNo());
-                        player.getCard(cardOnTable.dealACard());
-                        View.printCardset(player.getSet());
-                        if (player.getSet().calculateRank() > 21) {
-                            View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
-                                    "爆牌", PlayerStatus.LOSE);
-                            player.setStatus(PlayerStatus.LOSE);
-                            break;
-                        }
-                    } else {
-                        player.setStopGetCard(true);
-                        break;
-                    }
-                    if (i == 4) {
-                        View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
-                                "過五關未爆牌", PlayerStatus.WIN);
-                        player.setStatus(PlayerStatus.WIN);
-                    }
-                }
-
+            }*/
+            
+            View.debugMessage("player" + player.getPlayerNo());
+            player.getCard(cardOnTable.dealACard());
+            View.printCardset(player.getSet());
+            if (player.getSet().calculateRank() > 21) {
+                View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
+                        "爆牌", PlayerStatus.LOSE);
+                player.setStatus(PlayerStatus.LOSE);
+                if (GameData.getNowPlayerInt() + 1 < GameConfig.getPlayerNumber()) {
+                    updateScreen();
+                } 
+                GameData.setPlayerFinishAddCard(true);
+                //break;
             }
+            /*
+             * else {
+             * player.setStopGetCard(true);
+             * break;
+             * }
+             */
+            /*if (GameData.getNumberOfCardNowPlayerGet() == 5) {
+                View.printSinglePlayerGameResult("玩家" + player.getPlayerNo(),
+                        "過五關未爆牌", PlayerStatus.WIN);
+                player.setStatus(PlayerStatus.WIN);
+            }
+            GameData.setNumberOfCardNowPlayerGet(GameData.getNumberOfCardNowPlayerGet() + 1);
 
+            */
         }
     }
 
@@ -136,7 +148,7 @@ public class BlackJack {
     /**
      * 莊家自己加牌
      */
-    private void bookmakerAddCard() {
+    public void bookmakerAddCard() {
         Player[] players = GameData.getPlayers();
         CardSet cardOnTable = GameData.getCardOnTable();
         printBookmakerCard();
@@ -169,7 +181,7 @@ public class BlackJack {
     /**
      * 所有玩家加牌完成和莊家比較點數看誰大
      */
-    private void compareRank() {
+    public void compareRank() {
         Player[] players = GameData.getPlayers();
         int bookmakerRank = players[0].getSet().calculateRank();
         for (Player player : players) {

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="blackjack.GameController">
+   <top>
+      <Label fx:id="nowPlayer" alignment="TOP_LEFT" text="玩家一" BorderPane.alignment="TOP_LEFT" />
+   </top>
+   <center>
+      <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+            <VBox prefHeight="343.0" prefWidth="118.0">
+               <children>
+                  <Label text="莊家：" />
+                  <Label fx:id="bookmakerCard" text="顯示莊家的牌" />
+                  <Label fx:id="bookmakerTotal" text="莊家牌總和" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="你的牌：" />
+                  <Label fx:id="playerCard" text="顯示玩家的牌" />
+                  <Label fx:id="playerTotal" text="玩家牌總和" />
+               </children>
+            </VBox>
+        </items>
+      </SplitPane>
+   </center>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="message" text="Label" />
+            <ToolBar prefHeight="49.0" prefWidth="600.0">
+              <items>
+                <Button fx:id="addCard_btn" mnemonicParsing="false" onAction="#playerAddCard" text="加牌" />
+                  <Button fx:id="buyInsurance_btn" disable="true" mnemonicParsing="false" text="買保險" />
+                  <Button fx:id="doubleBet_btn" disable="true" mnemonicParsing="false" text="加倍投注" />
+                  <Button fx:id="nextPlayer" mnemonicParsing="false" onAction="#nextPlayer" text="換下一位" />
+              </items>
+            </ToolBar>
+         </children>
+      </VBox>
+   </bottom>
+</BorderPane>

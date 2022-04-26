@@ -1,3 +1,5 @@
+package blackjack;
+
 public enum PlayerStatus {
     WIN("贏了"),
     LOSE("輸了"),

@@ -1,3 +1,5 @@
+package blackjack;
+
 public class Player {
     private CardSet set = new CardSet();
     private boolean stopGetCard = false;

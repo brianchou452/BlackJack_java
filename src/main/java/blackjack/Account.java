@@ -1,3 +1,5 @@
+package blackjack;
+
 public class Account {
     private int balance = 0;
 

@@ -1,3 +1,5 @@
+package blackjack;
+
 public enum Suit {
     CLUBS("梅花"),
     DIAMONDS("方塊"),

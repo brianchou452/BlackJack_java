@@ -1,11 +1,14 @@
+package blackjack;
+
 public class GameConfig {
     private static int defaultBalance = 5000;
     private static int playerNumber = 2;
     private static int SetOfCard = 4;// 有幾副牌
     private static boolean playWithMoney;
-    private static GameMode gameMode = GameMode.COMMAD_LINE;//TODO change it later
+    private static GameMode gameMode = GameMode.GUI;//TODO change it later
     private static boolean debugMode = false;
     private static boolean debugMessage = false;
+    
 
     public enum GameMode {
         COMMAD_LINE,GUI
@@ -25,10 +28,22 @@ public class GameConfig {
             System.out.print("輸入每位玩家的預設帳戶金額: $");
             tmp = Utils.sc.nextLine();
             defaultBalance = Integer.parseInt(tmp);
-        }   
+        }
         System.out.print("輸入要以幾組撲克牌來進行遊戲: ");
         tmp = Utils.sc.nextLine();
         SetOfCard = Integer.parseInt(tmp);
+    }
+    
+    /**
+     * 初始化遊戲設定
+     */
+    public static void initGUI(String playerNum) {
+        
+        playerNumber = 1 + Integer.parseInt(playerNum);
+        playWithMoney = false;
+        debugMode = true;
+        debugMessage = true;
+        SetOfCard = 2;
     }
 
     /**

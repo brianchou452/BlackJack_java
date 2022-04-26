@@ -1,3 +1,5 @@
+package blackjack;
+
 public class View {
     private static GameConfig.GameMode gameMode = GameConfig.getGameMode();
 
@@ -14,9 +16,6 @@ public class View {
     }
 
     public static void printCurrentPlayer(int playerNo) {
-        if (isUsingGUI()) {
-            // TODO call GUI function
-        }
         System.out.println("#玩家" + playerNo);
     }
 
@@ -29,7 +28,7 @@ public class View {
 
     public static void printSinglePlayerGameResult(String playerName, String reason, PlayerStatus status) {
         if (isUsingGUI()) {
-            // TODO call GUI function
+            GameData.setSinglePlayerGameResult("#" + playerName + reason + status);
             // TODO 原因改用enum傳遞
         }
         System.out.println("#" + playerName + reason + status);
@@ -42,7 +41,27 @@ public class View {
         Player[] players = GameData.getPlayers();
         if (isUsingGUI()) {
             // TODO call GUI function
-            return;
+            String tmp = "";
+            tmp += "\n\n==========遊戲結果==========";
+            tmp +="\n莊家的牌為:";
+            for (Card card : players[0].getSet().getCards()) {
+                tmp += card.getSuit().getString() + card.getRank().getRankStr() + " ";
+            }
+            tmp += "\n總和為:" + players[0].getSet().calculateRank()+"\n";
+            for (Player player : players) {
+                if (player.isBookmaker()) {
+                    continue;
+                }
+                tmp +="玩家" + player.getPlayerNo() + player.getStatus();
+
+                // 印出玩家的帳戶餘額，格式為 “帳戶餘額: $xxxx”
+                if (GameConfig.isPlayWithMoney()) {
+                    tmp +=", " + "帳戶餘額: $" + player.getAccount().getBalance();
+                }
+                tmp +="\n";
+            }
+            tmp += "\n============================\n\n";
+            GameData.setSinglePlayerGameResult(tmp);
         }
         System.out.println("\n\n==========遊戲結果==========");
         System.out.println("莊家的牌為:");
@@ -64,6 +83,9 @@ public class View {
     }
 
     public static void changePlayer(String playerName) {
+        if (isUsingGUI()) {
+            GameData.setNowPlayer(playerName);
+        }
         System.out.println("\n\n----------------------");
         System.out.println("#" + playerName);
     }
@@ -76,6 +98,15 @@ public class View {
      * 印出所有牌和點數總和
      */
     public static void printCardset(CardSet set) {// TODO override toString??
+        if (isUsingGUI()) {
+            // TODO call GUI function
+            String tmp = "";
+            for (Card card : set.getCards()) {
+                tmp += card.getSuit().getString() + card.getRank().getRankStr() + " ";
+            }
+            tmp += "\n總和為:" + set.calculateRank();
+            GameData.setNowPlayerCardSet(tmp);
+        }
         for (Card card : set.getCards()) {
             System.out.print(card.getSuit().getString() + card.getRank().getRankStr() + " ");
         }
@@ -87,6 +118,20 @@ public class View {
      * 印出除了第一張牌以外的所有牌以及點數和(用於印出莊家手中的牌)
      */
     public static void printCardsetWithHiding1stCard(CardSet set) {
+        if (isUsingGUI()) {
+            String tmp = "";
+            int i = 0;
+            for (Card card : set.getCards()) {
+                if (i == 0) {
+                    tmp += "*** ";
+                    i++;
+                    continue;
+                }
+                tmp += card.getSuit().getString() + card.getRank().getRankStr() + " ";
+            }
+            tmp += "\n總和為: n + " + set.calculateRankWithout1stCard();
+            GameData.setBookmakerCardSet(tmp);
+        }
         int i = 0;
         for (Card card : set.getCards()) {
             if (i == 0) {

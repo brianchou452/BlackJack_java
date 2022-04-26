@@ -1,5 +1,7 @@
+package blackjack;
+
 public class PlayGame {
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         GameConfig.init();
         BlackJack gmae1 = new BlackJack();
         boolean stopPlaying = false;
@@ -10,5 +12,5 @@ public class PlayGame {
             }
         }
         Utils.sc.close();
-    }
+    }*/
 }
