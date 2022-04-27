@@ -41,7 +41,7 @@ public class GameConfig {
         
         playerNumber = 1 + Integer.parseInt(playerNum);
         playWithMoney = false;
-        debugMode = true;
+        debugMode = false;
         debugMessage = true;
         SetOfCard = 2;
     }

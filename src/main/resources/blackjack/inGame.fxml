@@ -6,26 +6,42 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="blackjack.GameController">
    <top>
-      <Label fx:id="nowPlayer" alignment="TOP_LEFT" text="玩家一" BorderPane.alignment="TOP_LEFT" />
+      <Label fx:id="nowPlayer" alignment="TOP_LEFT" text="玩家一" BorderPane.alignment="TOP_LEFT">
+         <font>
+            <Font name="System Bold Italic" size="26.0" />
+         </font></Label>
    </top>
    <center>
       <SplitPane dividerPositions="0.5" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
             <VBox prefHeight="343.0" prefWidth="118.0">
                <children>
-                  <Label text="莊家：" />
-                  <Label fx:id="bookmakerCard" text="顯示莊家的牌" />
-                  <Label fx:id="bookmakerTotal" text="莊家牌總和" />
+                  <Label text="莊家：">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="bookmakerCard" text="顯示莊家的牌">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="bookmakerTotal" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="你的牌：" />
-                  <Label fx:id="playerCard" text="顯示玩家的牌" />
-                  <Label fx:id="playerTotal" text="玩家牌總和" />
+                  <Label text="你的牌：">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="playerCard" text="顯示玩家的牌">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Label fx:id="playerTotal" />
                </children>
             </VBox>
         </items>
@@ -34,7 +50,10 @@
    <bottom>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="message" text="Label" />
+            <Label fx:id="message">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
             <ToolBar prefHeight="49.0" prefWidth="600.0">
               <items>
                 <Button fx:id="addCard_btn" mnemonicParsing="false" onAction="#playerAddCard" text="加牌" />
